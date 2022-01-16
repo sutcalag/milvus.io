@@ -1,4 +1,4 @@
-let gatsbyConfigs = {
+const gatsbyConfigs = {
   siteMetadata: {
     siteUrl: `https://milvus.io`,
     title: `· Open Source Vector Database built for scalable similarity search`,
@@ -53,16 +53,14 @@ let gatsbyConfigs = {
             }
           }
         }`,
-        resolveSiteUrl: ({ allSite }) => {
-          return allSite.edges[0].node.siteMetadata.siteUrl;
-        },
+        resolveSiteUrl: ({ allSite }) => allSite.edges[0].node.siteMetadata.siteUrl,
         resolvePages: ({
           allSitePage: { nodes: allPages },
           allVersion: { nodes: versions },
         }) => {
           const res = allPages.reduce((acc, cur) => {
             // filter out docs with version info with released value is no
-            const path = cur.path;
+            const {path} = cur;
             if (versions.every(ver => path.indexOf(ver.version) === -1)) {
               if (path.endsWith("/") && path.length > 1) {
                 cur.path = path.slice(0, path.length - 1);
@@ -296,18 +294,18 @@ if (process.env.NODE_ENV == "development") {
             {
               family: "Roboto Mono",
               variants: ["300", "400", "500"],
-              //subsets: ['latin']
-              //text: 'Hello'
-              //fontDisplay: 'swap',
-              //strategy: 'selfHosted' // 'base64' || 'cdn'
+              // subsets: ['latin']
+              // text: 'Hello'
+              // fontDisplay: 'swap',
+              // strategy: 'selfHosted' // 'base64' || 'cdn'
             },
             {
               family: "Inter",
               variants: ["300", "400", "500", "700"],
-              //subsets: ['latin']
-              //text: 'Hello'
-              //fontDisplay: 'swap',
-              //strategy: 'selfHosted' // 'base64' || 'cdn'
+              // subsets: ['latin']
+              // text: 'Hello'
+              // fontDisplay: 'swap',
+              // strategy: 'selfHosted' // 'base64' || 'cdn'
             },
             {
               family: "Source Code Pro",
@@ -321,10 +319,10 @@ if (process.env.NODE_ENV == "development") {
         //   woff: `Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; rv:11.0) like Gecko`,
         //   woff2: `Mozilla/5.0 (Windows NT 10.0; Win64; x64; ServiceUI 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393`,
         // },
-        //formats: ['woff2', 'woff'],
-        //useMinify: true,
-        //usePreload: true,
-        //usePreconnect: false,
+        // formats: ['woff2', 'woff'],
+        // useMinify: true,
+        // usePreload: true,
+        // usePreconnect: false,
       },
     }
   );

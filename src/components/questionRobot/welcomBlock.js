@@ -1,7 +1,7 @@
 import React from "react";
 import iconBird from "../../images/milmil_logo.svg";
 
-const WelcomBlock = ({ version = 2, setInit = () => {} }) => {
+function WelcomBlock({ version = 2, setInit = () => {} }) {
   const initQuestions = {
     1: [
       "How to set index_file_size",
@@ -31,8 +31,7 @@ const WelcomBlock = ({ version = 2, setInit = () => {} }) => {
         <br />
         You may want to know:
         <div>
-          {initQuestions[version].map((question, index) => {
-            return (
+          {initQuestions[version].map((question, index) => (
               <button
                 key={`${question}-${index}`}
                 onClick={() => {
@@ -41,12 +40,11 @@ const WelcomBlock = ({ version = 2, setInit = () => {} }) => {
               >
                 {question}
               </button>
-            );
-          })}
+            ))}
         </div>
       </div>
     </>
   );
-};
+}
 
 export default WelcomBlock;

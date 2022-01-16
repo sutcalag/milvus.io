@@ -18,7 +18,7 @@ import Layout from '../components/layout/index';
 import { useWindowSize } from "../http/hooks";
 // import { useMobileScreen } from '../hooks';
 
-const NotFoundPage = () => {
+function NotFoundPage() {
   const { t } = useI18next();
   const currentSize = useWindowSize();
   const isMobile = ["phone", "tablet"].includes(currentSize);
@@ -45,7 +45,7 @@ const NotFoundPage = () => {
             {t('v3trans.404.desc2')}
           </p>
           <Link
-            to={'/'}
+            to="/"
             className="notfound-button"
             children={
               <>
@@ -58,7 +58,7 @@ const NotFoundPage = () => {
       </div>
     </Layout>
   );
-};
+}
 export default NotFoundPage;
 
 export const query = graphql`

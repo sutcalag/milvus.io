@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const minimist = require('minimist');
+
 const cmdParams = minimist(process.argv.slice(2));
 const getAllActiveVersions = require('./walkFile');
 
@@ -66,10 +67,10 @@ const updateElastic = async filePath => {
 };
 
 async function walkFiles(dirPath, fileObj = {}) {
-  let filesList = fs.readdirSync(dirPath);
+  const filesList = fs.readdirSync(dirPath);
   for (let i = 0; i < filesList.length; i++) {
-    let filePath = path.join(dirPath, filesList[i]);
-    let stats = fs.statSync(filePath);
+    const filePath = path.join(dirPath, filesList[i]);
+    const stats = fs.statSync(filePath);
     if (stats.isDirectory()) {
       if (filePath.includes('fragments')) {
         continue;
@@ -86,8 +87,7 @@ const versionInfo = getAllActiveVersions('src/pages/docs/versions');
 const versions = Object.keys(versionInfo);
 const AUTH = process.env.ES_DEL_AUTH;
 
-const deleteAllIndexes = async () => {
-  return new Promise(async (res, rej) => {
+const deleteAllIndexes = async () => new Promise(async (res, rej) => {
     for (let i = 0; i < versions.length; i++) {
       if (versions[i].includes('.')) {
         await axios.post(DELETE_INDEX_URL, {
@@ -102,7 +102,6 @@ const deleteAllIndexes = async () => {
     }
     res('done');
   });
-};
 console.log('----------delete start--------');
 
 deleteAllIndexes().then(() => {

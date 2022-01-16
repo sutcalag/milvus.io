@@ -9,25 +9,15 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  config => {
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
+  config => config,
+  error => Promise.reject(error)
 );
 
 axiosInstance.interceptors.response.use(
-  response => {
-    return Promise.resolve(response.data);
-  },
-  error => {
-    return Promise.reject(error);
-  }
+  response => Promise.resolve(response.data),
+  error => Promise.reject(error)
 );
 
 // This interface requires Nginx proxy before it can be used
 // Need to be packaged by docker to debug
-export const submitInfoForm = async params => {
-  return axiosInstance.post(`/mailchimp`, params);
-};
+export const submitInfoForm = async params => axiosInstance.post(`/mailchimp`, params);

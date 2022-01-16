@@ -101,7 +101,7 @@ export const formatSize = size => {
   let sizeStatus = 1;
   let status = 'BYTE';
   while (sizeStatus < 4 && size > 4096) {
-    size = size / 1024;
+    size /= 1024;
     sizeStatus++;
   }
   sizeStatus === 2
@@ -119,6 +119,4 @@ export const formatSize = size => {
   return `${size} ${status}`;
 };
 
-export const formatVectors = value => {
-  return format('~s')(value).replace('G', 'B');
-};
+export const formatVectors = value => format('~s')(value).replace('G', 'B');

@@ -1,16 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useI18next } from "gatsby-plugin-react-i18next";
+import { graphql } from "gatsby";
+import clsx from "clsx";
+import Typography from "@mui/material/Typography";
 import Layout from "../components/layout";
 import LeftNav from "../components/leftNavigation";
 import HorizontalBlogCard from "../components/card/HorizontalBlogCard";
-import { graphql } from "gatsby";
 import "highlight.js/styles/stackoverflow-light.css";
 import "./docTemplate.less";
 import "./commonDocTemplate.less";
-import Typography from "@mui/material/Typography";
 import RelatedQuestion from "../components/relatedQuestion";
 import ScoredFeedback from "../components/scoredFeedback";
-import clsx from "clsx";
 import { useWindowSize } from "../http/hooks";
 import Aside from "../components/aside";
 import Seo from "../components/seo";
@@ -234,7 +234,7 @@ export default function Template({ data, pageContext }) {
   );
 }
 
-const HomeContent = props => {
+function HomeContent(props) {
   const { homeData, newestBlog = [], trans } = props;
   return (
     <>
@@ -250,9 +250,9 @@ const HomeContent = props => {
       </Typography>
     </>
   );
-};
+}
 
-const GitCommitInfo = props => {
+function GitCommitInfo(props) {
   const { commitInfo = {}, mdId, commitTrans = "was last updated at" } = props;
   return (
     <div className="commit-info-wrapper">
@@ -265,9 +265,9 @@ const GitCommitInfo = props => {
       </a>
     </div>
   );
-};
+}
 
-const DocContent = props => {
+function DocContent(props) {
   const { htmlContent, commitInfo, mdId, relatedKey, isMobile, trans } = props;
   //! TO REMOVE
   const faqMock = {
@@ -298,8 +298,7 @@ const DocContent = props => {
     },
   };
   return (
-    <>
-      <div className="doc-post-wrapper">
+    <div className="doc-post-wrapper">
         <div
           className="doc-post-content"
           dangerouslySetInnerHTML={{ __html: htmlContent }}
@@ -322,6 +321,5 @@ const DocContent = props => {
         )}
         <ScoredFeedback trans={trans} pageId={mdId} />
       </div>
-    </>
   );
-};
+}

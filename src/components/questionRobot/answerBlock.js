@@ -4,7 +4,7 @@ import iconBird from "../../images/milmil_logo.svg";
 import * as styles from "./index.module.less";
 import FeedbackDialog from "../dialog/FeedbackDialog";
 
-const ChatItem = ({ chat = {} }) => {
+function ChatItem({ chat = {} }) {
   const [title, content, isLink] = chat;
   const [expand, setExpand] = useState(false);
 
@@ -17,7 +17,7 @@ const ChatItem = ({ chat = {} }) => {
         }}
       >
         Collapse
-        <i className={`fas fa-chevron-up`}></i>
+        <i className="fas fa-chevron-up" />
       </button>
     </>
   ) : (
@@ -27,7 +27,7 @@ const ChatItem = ({ chat = {} }) => {
       }}
     >
       See Answers
-      <i className={`fas fa-chevron-down`}></i>
+      <i className="fas fa-chevron-down" />
     </button>
   );
   return (
@@ -36,21 +36,21 @@ const ChatItem = ({ chat = {} }) => {
       {isLink ? (
         <a href={content} target="_blank" rel="noopener noreferrer">
           See on Github
-          <i className={`fab fa-github`}></i>
+          <i className="fab fa-github" />
         </a>
       ) : (
         answer
       )}
     </div>
   );
-};
+}
 
-const AnswerBlock = ({
+function AnswerBlock({
   chat = [],
   setCurrent = () => {},
   index = 0,
   trans,
-}) => {
+}) {
   const [expandBlock, setExpandBlock] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -97,11 +97,11 @@ const AnswerBlock = ({
         ))}
         <button onClick={() => expandAnswers()}>
           See More
-          <i className={`fas fa-chevron-down`}></i>
+          <i className="fas fa-chevron-down" />
         </button>
       </div>
     </>
   );
-};
+}
 
 export default AnswerBlock;

@@ -16,13 +16,11 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  function (config) {
-    return config;
-  },
-  function (error) {
+  (config) => config,
+  (error) => 
     // Do something with request error
-    return Promise.reject(error);
-  }
+     Promise.reject(error)
+  
 );
 
 export const getFaq = async (config) => {

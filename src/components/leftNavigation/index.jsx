@@ -14,7 +14,7 @@ import ExpansionTreeView from "../treeView/ExpansionTreeView";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
-import { sortVersions } from "../../utils/index";
+import sortVersions from "../../utils/index";
 
 const LeftNav = props => {
   const {

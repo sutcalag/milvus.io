@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getGithubCommits, getFaq } from "./index";
 import dayjs from "dayjs";
+import { getGithubCommits, getFaq } from "./index";
 
 export function useGithubCommits({ commitPath, version, isDoc = false }) {
   const [commitInfo, setCommitInfo] = useState({
@@ -17,7 +17,7 @@ export function useGithubCommits({ commitPath, version, isDoc = false }) {
         if (res.status === 200 && res.data.length) {
           const lastCommit = res.data[0];
           const message = lastCommit.commit.message.split("\n")[0];
-          const date = lastCommit.commit.committer.date;
+          const {date} = lastCommit.commit.committer;
           const commitUrl = lastCommit.html_url;
           const formatDate = dayjs(date).format("YYYY-MM-DD HH:mm:ss");
           const source = `https://github.com/milvus-io/milvus-docs/blob/${version}/${commitPath}`;
@@ -204,11 +204,11 @@ const getCurrentSize = () => {
 
     if (desktop1920.matches) {
       return "desktop1920";
-    } else if (desktop1440.matches) {
+    } if (desktop1440.matches) {
       return "desktop1440";
-    } else if (desktop1024.matches) {
+    } if (desktop1024.matches) {
       return "desktop1024";
-    } else if (desktop744.matches) {
+    } if (desktop744.matches) {
       return "tablet";
     }
     return "phone";
@@ -217,9 +217,7 @@ const getCurrentSize = () => {
 };
 
 export function useWindowSize() {
-  const [size, setSize] = useState(() => {
-    return getCurrentSize();
-  });
+  const [size, setSize] = useState(() => getCurrentSize());
 
   useEffect(() => {
     const onResize = () => {

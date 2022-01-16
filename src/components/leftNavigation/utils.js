@@ -1,5 +1,5 @@
 const findItem = (key, value, arr) => {
-  let find = undefined;
+  let find;
   arr.forEach((v) => {
     if (find) return;
     // because of tab id like: xxx-cpu
@@ -25,7 +25,7 @@ export const mdMenuListFactory = (menuList, pageType, version, locale) => {
       : [];
   let index = 0;
   return function innerFn(formatMenu = []) {
-    let copyMenu = JSON.parse(JSON.stringify(formatMenu));
+    const copyMenu = JSON.parse(JSON.stringify(formatMenu));
     const parentLabel = index ? labelKeys[index - 1] : "";
 
     if (index && !parentLabel) {
@@ -55,7 +55,7 @@ export const mdMenuListFactory = (menuList, pageType, version, locale) => {
     // find top menu by current label
     const topMenu = menuList.filter((v) => {
       if (!labelKeys[index] || !v[labelKeys[index]]) {
-        return index > 0 ? (v[parentLabel] ? true : false) : true;
+        return index > 0 ? (!!v[parentLabel]) : true;
       }
       return false;
     });

@@ -1,6 +1,7 @@
 const locales = require("../src/consts/locales");
 const fs = require("fs");
 const { start } = require("repl");
+
 const env = process.env.IS_PREVIEW;
 const HTMLParser = require("node-html-parser");
 
@@ -266,14 +267,12 @@ const findVersion = str => {
     : "";
 };
 
-const findLang = path => {
-  return DOC_LANG_FOLDERS.reduce((pre, cur) => {
+const findLang = path => DOC_LANG_FOLDERS.reduce((pre, cur) => {
     if (path.includes(cur)) {
       pre = cur === "/en/" ? "en" : "cn";
     }
     return pre;
   }, "");
-};
 
 const checkIsblog = path => path.includes("blog");
 
@@ -326,9 +325,7 @@ const generatePath = (
   return needLocal ? `${localizedPath}${id}` : `/${id}`;
 };
 
-const getVersionsWithHome = homeData => {
-  return homeData.map(data => data.version);
-};
+const getVersionsWithHome = homeData => homeData.map(data => data.version);
 
 // generate default blog cover according to blog's date
 const generateDefaultBlogCover = (date, coverList = []) => {
@@ -361,11 +358,10 @@ const getNormalVersionHomePath = (version, locale, path) => {
  * @param {array} edges allFile.edges from graphql query response
  * @returns {array} {nodes} for all menus in doc page
  */
-const generateAllMenus = edges => {
-  return edges
+const generateAllMenus = edges => edges
     .filter(({ node: { childMenu } }) => childMenu !== null)
     .map(({ node: { absolutePath, childMenu } }) => {
-      let lang = absolutePath.includes("/en/") ? "en" : "cn";
+      const lang = absolutePath.includes("/en/") ? "en" : "cn";
       const isBlog = absolutePath.includes("blog");
       const version = findVersion(absolutePath) || "master";
       const menuStructureList = (childMenu && [...childMenu.menuList]) || [];
@@ -378,15 +374,13 @@ const generateAllMenus = edges => {
         absolutePath,
       };
     });
-};
 
 /**
  * generate home data nodes from allFile
  * @param {array} edges allFile.edges from graphql query response
  * @returns {array} {nodes} for home data in doc page
  */
-const generateHomeData = edges => {
-  return edges
+const generateHomeData = edges => edges
     .filter(({ node: { childDocHome } }) => childDocHome !== null)
     .map(({ node: { absolutePath, childDocHome } }) => {
       const language = absolutePath.includes("/en") ? "en" : "cn";
@@ -400,15 +394,13 @@ const generateHomeData = edges => {
         path: absolutePath,
       };
     });
-};
 
 /**
  * remove useless md file blog without version
  * @param {*} edges allMarkdownRemark.edges from graphql query response
  * @returns {array} {nodes} for md file with version
  */
-const filterMdWithVersion = edges => {
-  return edges.filter(({ node: { fileAbsolutePath, frontmatter } }) => {
+const filterMdWithVersion = edges => edges.filter(({ node: { fileAbsolutePath, frontmatter } }) => {
     /**
      * Filter correct md file by version.
      * Drop md file with no version or older than v1.0.0 (except v0.x).
@@ -433,10 +425,8 @@ const filterMdWithVersion = edges => {
       frontmatter.id !== "home.md"
     );
   });
-};
 
-const filterMDwidthBlog = edges => {
-  return edges.filter(({ node }) => {
+const filterMDwidthBlog = edges => edges.filter(({ node }) => {
     const isBlog = node.fileAbsolutePath.includes(
       "/blogs/versions/master/blog"
     );
@@ -444,7 +434,6 @@ const filterMDwidthBlog = edges => {
     const isPublish = node.frontmatter.isPublish !== false;
     return isBlog && isPublish;
   });
-};
 
 // converte home.json to md, filter all files and it's corresponding version
 const filterHomeMdWithVersion = edges => {
@@ -503,12 +492,10 @@ const filterHomeMdWithVersion = edges => {
  * @param {array} edges allMarkdownRemark.edges from graphql query response
  * @returns {array} {nodes} for community md file
  */
-const filterCommunityMd = edges => {
-  return edges.filter(
+const filterCommunityMd = edges => edges.filter(
     ({ node: { fileAbsolutePath, frontmatter } }) =>
       fileAbsolutePath.includes("communityArticles") && frontmatter.id
   );
-};
 
 /**
  * filter out community menus from allFile
@@ -516,8 +503,7 @@ const filterCommunityMd = edges => {
  * @param {*} edges allFile.edges from graphql query response
  * @returns {array} {nodes} for community menus
  */
-const filterCommunityMenus = edges => {
-  return edges
+const filterCommunityMenus = edges => edges
     .filter(
       ({ node: { childCommunity } }) =>
         childCommunity !== null && childCommunity.menuList !== null
@@ -530,7 +516,6 @@ const filterCommunityMenus = edges => {
         menuList,
       };
     });
-};
 
 /**
  * filter out community menus from allFile
@@ -538,22 +523,17 @@ const filterCommunityMenus = edges => {
  * @param {*} edges allMarkdownRemark.edges from graphql query response
  * @returns  {array} {nodes} for community home
  */
-const filterCommunityHome = edges => {
-  return edges.filter(
+const filterCommunityHome = edges => edges.filter(
     ({ node: { fileAbsolutePath, frontmatter } }) =>
       frontmatter.id && fileAbsolutePath.includes("communityHome")
   );
-};
 
-const filterBootcampMd = edges => {
-  return edges.filter(
+const filterBootcampMd = edges => edges.filter(
     ({ node: { fileAbsolutePath, frontmatter } }) =>
       fileAbsolutePath.includes("bootcampArticles") && frontmatter.id
   );
-};
 
-const filterBootcampMenus = edges => {
-  return edges
+const filterBootcampMenus = edges => edges
     .filter(
       ({ node: { childBootcamp } }) =>
         childBootcamp !== null && childBootcamp.menuList !== null
@@ -566,10 +546,8 @@ const filterBootcampMenus = edges => {
         menuList,
       };
     });
-};
 
-const filterBootcampHome = edges => {
-  return edges
+const filterBootcampHome = edges => edges
     .filter(
       ({ node: { childBootcamp, absolutePath } }) =>
         childBootcamp !== null && absolutePath.includes("bootcampHome")
@@ -583,7 +561,6 @@ const filterBootcampHome = edges => {
         path: absolutePath,
       };
     });
-};
 
 /**
  * get community page data: articles md, menu and home json
@@ -819,7 +796,7 @@ const generateTitle = ({
   const [, label2 = ""] = labels;
   // Return name if the menu is a 3rd level menu(such as: API => java => exception)
   // Return category name if the menu is a 1st or 2nd level menu(such as: API, API => java)
-  let prettierCategory = label2
+  const prettierCategory = label2
     ? capitalize(name)
     : titleMapping[category] || capitalize(category);
   // return prettier category name if directory
@@ -998,10 +975,10 @@ const generateDocHomeWidthMd = (
 ) => {
   // generate newest blog
   const list = blogMD.map(({ node }) => {
-    const fileAbsolutePath = node.fileAbsolutePath;
+    const {fileAbsolutePath} = node;
     const fileLang = findLang(fileAbsolutePath);
 
-    let [date, tag = "", title, desc, id, cover] = [
+    const [date, tag = "", title, desc, id, cover] = [
       node.frontmatter.date,
       node.frontmatter.tag,
       node.frontmatter.title,
@@ -1022,16 +999,14 @@ const generateDocHomeWidthMd = (
     };
   });
 
-  const getTwoNewestBlog = lang => {
-    return list
+  const getTwoNewestBlog = lang => list
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .filter(i => i.fileLang === lang)
       .slice(0, 2);
-  };
 
   const formatDocHomeHtml = (html, homePath, version) => {
     const regex = /\<a (\S*)\>/g;
-    let newHtml = html.replace(regex, link => {
+    const newHtml = html.replace(regex, link => {
       const [start, originPath, end] = link.split('"');
       const formatPath =
         originPath.charAt(0) === "#" ||
@@ -1116,12 +1091,12 @@ const generateAllDocPages = (
   }
 ) => {
   legalMd.forEach(({ node }) => {
-    const fileAbsolutePath = node.fileAbsolutePath;
+    const {fileAbsolutePath} = node;
     const isBlog = checkIsblog(fileAbsolutePath);
     const fileId = node.frontmatter?.id;
     const relatedKey = node.frontmatter.related_key;
     const summary = node.frontmatter.summary || "";
-    let version = findVersion(fileAbsolutePath) || "master";
+    const version = findVersion(fileAbsolutePath) || "master";
 
     const fileLang = findLang(fileAbsolutePath);
     const editPath = fileAbsolutePath.split(
@@ -1208,10 +1183,10 @@ const generateBlogArticlePage = (
   };
   // get blogs list data, create blogs list page
   const list = blogMD.map(({ node }) => {
-    const fileAbsolutePath = node.fileAbsolutePath;
+    const {fileAbsolutePath} = node;
     const fileLang = findLang(fileAbsolutePath);
 
-    let [date, tag = "", title, desc, id, cover] = [
+    const [date, tag = "", title, desc, id, cover] = [
       node.frontmatter.date,
       node.frontmatter.tag,
       node.frontmatter.title,
@@ -1231,16 +1206,14 @@ const generateBlogArticlePage = (
     };
   });
 
-  const filterAndSortBlogs = (list, lang) => {
-    return list
+  const filterAndSortBlogs = (list, lang) => list
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .filter(i => i.fileLang === lang);
-  };
   const allBlogsList = {
     cn: filterAndSortBlogs(list, "cn"),
     en: filterAndSortBlogs(list, "en"),
   };
-  for (let key in allBlogsList) {
+  for (const key in allBlogsList) {
     createPage({
       path: key === "cn" ? `/${key}/blog` : `/blog`,
       component: blogListTemplate,
@@ -1253,7 +1226,7 @@ const generateBlogArticlePage = (
 
   // create blog detail page
   blogMD.forEach(({ node }) => {
-    const fileAbsolutePath = node.fileAbsolutePath;
+    const {fileAbsolutePath} = node;
     const isBlog = checkIsblog(fileAbsolutePath);
     const fileId = node.frontmatter.id;
     const fileLang = findLang(fileAbsolutePath);
@@ -1267,7 +1240,7 @@ const generateBlogArticlePage = (
       isBenchmark
     );
     const newHtml = node.html;
-    let [date, tag = "", origin, author, title, id, desc, cover] = [
+    const [date, tag = "", origin, author, title, id, desc, cover] = [
       node.frontmatter.date,
       node.frontmatter.tag,
       node.frontmatter.origin,

@@ -69,7 +69,7 @@ function SEO({ description, lang, meta, title, version, link }) {
         },
       ].concat(meta)}
       link={[].concat(link || {})}
-    ></Helmet>
+     />
   );
 }
 

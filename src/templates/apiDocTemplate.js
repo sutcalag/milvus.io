@@ -130,7 +130,7 @@ export default function Template({ data, pageContext }) {
       >
         <LeftNav
           homeUrl={leftNavHomeUrl}
-          homeLabel={"Docs Home"}
+          homeLabel="Docs Home"
           menus={menuList.menuList}
           apiMenus={allApiMenus}
           currentVersion={targetDocVersion}
@@ -150,7 +150,7 @@ export default function Template({ data, pageContext }) {
               <div
                 className={`api-reference-wrapper doc-post-container ${category}`}
                 dangerouslySetInnerHTML={{ __html: doc }}
-              ></div>
+               />
             </div>
             {!isPhone && (
               <div className="doc-toc-container">

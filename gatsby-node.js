@@ -1,8 +1,8 @@
 const path = require("path");
 const fs = require("fs");
+const express = require("express");
 const ReadVersionJson = require("./walkFile");
 const locales = require("./src/consts/locales");
-const express = require("express");
 const createPagesUtils = require("./gatsbyUtils/createPages");
 const sourceNodesUtils = require("./gatsbyUtils/sourceNodes");
 
@@ -138,12 +138,12 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
   // read categories, such as pymilvus and pymilvus-orm
   const categories = fs.readdirSync(dirPath);
   const nodes = [];
-  for (let category of categories) {
+  for (const category of categories) {
     const path = `${dirPath}/${category}`;
     const versions = fs.readdirSync(path);
     switch (category) {
       case "pymilvus":
-        for (let version of versions) {
+        for (const version of versions) {
           // Pymilvus-orm was merged into pymilvus in 2.0
           if (version >= "v2.0.0") {
             handlePyFilesWithOrm(path, version, nodes);
@@ -153,17 +153,17 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
         }
         break;
       case "milvus-sdk-go":
-        for (let version of versions) {
+        for (const version of versions) {
           handleGoFiles(path, version, nodes);
         }
         break;
       case "milvus-sdk-java":
-        for (let version of versions) {
+        for (const version of versions) {
           handleJavaFiles(path, version, nodes);
         }
         break;
       case "milvus-sdk-node":
-        for (let version of versions) {
+        for (const version of versions) {
           handleNodeFiles(path, version, nodes);
         }
         break;
@@ -310,9 +310,7 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
   }
 
   const cssMinimizerPlugin = config.optimization?.minimizer?.find(
-    (plugin) => {
-      return plugin.constructor.name === "CssMinimizerPlugin"
-    }
+    (plugin) => plugin.constructor.name === "CssMinimizerPlugin"
   );
   if (cssMinimizerPlugin) {
     console.log("---------------config123------------",cssMinimizerPlugin.options.minimizerOptions);

@@ -13,12 +13,8 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  config => {
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
+  config => config,
+  error => Promise.reject(error)
 );
 
 instance.interceptors.response.use(

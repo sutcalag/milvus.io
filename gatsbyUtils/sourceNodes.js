@@ -21,12 +21,12 @@ const findDocVersion = (info, category, apiVersion) =>
  * @returns A list of initial results and calculated path of all files under the dirPath.
  */
 const getAllFilesAbsolutePath = (dirPath, pathList = []) => {
-  let filesList = fs.readdirSync(dirPath);
+  const filesList = fs.readdirSync(dirPath);
   for (let i = 0; i < filesList.length; i++) {
     // concat current file path: ${parent_path}/${current_file_name}
-    let filePath = path.join(dirPath, filesList[i]);
+    const filePath = path.join(dirPath, filesList[i]);
     // get file info by filePath, return a fs.Stats object
-    let stats = fs.statSync(filePath);
+    const stats = fs.statSync(filePath);
     if (stats.isDirectory()) {
       // recursion call
       getAllFilesAbsolutePath(filePath, pathList);
@@ -51,9 +51,7 @@ const getFileName = (path = '') => path.split('/').pop();
  * @param {string} dir Directory name used to split the absolute path.
  * @returns {string} Relative path, such as "example/index.html" and "index.html".
  */
-const getFileRelativePath = (path, dir) => {
-  return path.split(`${dir}/`).pop();
-};
+const getFileRelativePath = (path, dir) => path.split(`${dir}/`).pop();
 
 /**
  * generate gatsby node
@@ -115,7 +113,7 @@ const handleApiFiles = (
 ) => {
   const dirPath = `${parentPath}/${version}`;
   try {
-    let filesList = getAllFilesAbsolutePath(dirPath);
+    const filesList = getAllFilesAbsolutePath(dirPath);
     // Level: api_reference(root directory) > 2nd level directory > 3rd level directory.
     const thridLevelDirectories = {};
     // Get all HTML files under dirPath.
@@ -123,8 +121,8 @@ const handleApiFiles = (
     // If this dirPath has only one page or not, regardless how many directories.
     const isSinglePage = htmlFiles.length === 1;
     for (let i = 0; i < htmlFiles.length; i++) {
-      let filePath = htmlFiles[i];
-      let doc = HTMLParser.parse(fs.readFileSync(filePath));
+      const filePath = htmlFiles[i];
+      const doc = HTMLParser.parse(fs.readFileSync(filePath));
       // Use custom doc2html function to generate docHTML and other data.
       const {
         docHTML,
@@ -273,7 +271,7 @@ const handlePyFilesWithOrm = (parentPath, version, apiFiles) => {
    * @returns {number} Order. The index in TOC sub tree or root tree.
    */
   const calculateOrder = (element, className, parentMenu = {}) => {
-    let order = -1;
+    const order = -1;
     const toctree = element?.querySelectorAll(className);
     for (let i = 0; i < toctree.length; i++) {
       const isCurrent = toctree[i]?.getAttribute('class')?.includes('current');
@@ -359,7 +357,7 @@ const handleGoFiles = (parentPath, version, apiFiles) => {
       const preNode = HTMLParser.parse(node.innerHTML);
       // replace <a> tag with text
       [...preNode.querySelectorAll('a')].forEach(e => {
-        const textContent = e.textContent;
+        const {textContent} = e;
         textContent && e.replaceWith(textContent);
       });
       [...preNode.querySelectorAll('span')].forEach(span => {
@@ -412,7 +410,7 @@ const handleJavaFiles = (parentPath, version, apiFiles) => {
       const preNode = HTMLParser.parse(node.innerHTML);
       // replace <a> tag with text
       [...preNode.querySelectorAll('a')].forEach(e => {
-        const textContent = e.textContent;
+        const {textContent} = e;
         textContent && e.replaceWith(textContent);
       });
       [...preNode.querySelectorAll('span')].forEach(span => {
@@ -462,7 +460,7 @@ const handleNodeFiles = (parentPath, version, apiFiles) => {
     [...doc.querySelectorAll('pre')].forEach(node => {
       const preNode = HTMLParser.parse(node.innerHTML);
       [...preNode.querySelectorAll('a')].forEach(e => {
-        const textContent = e.textContent;
+        const {textContent} = e;
         textContent && e.replaceWith(textContent);
       });
       [...preNode.querySelectorAll('span')].forEach(span => {

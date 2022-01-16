@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import * as styles from "./code.module.less";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Tooltip from "@mui/material/Tooltip";
+import * as styles from "./code.module.less";
 
-const Code = ({ html, content, tooltip = {} }) => {
+function Code({ html, content, tooltip = {} }) {
   const [isCopied, setIscopied] = useState(false);
 
   const { copy: copyText = "copy", copied: copiedText = "copied" } = tooltip;
@@ -60,7 +60,7 @@ const Code = ({ html, content, tooltip = {} }) => {
       <div
         className={`${styles.codeSection}`}
         dangerouslySetInnerHTML={{ __html: html }}
-      ></div>
+       />
 
       {/* <button className={styles.copyBtn} onClick={onButtonClick}>
         {isCopied ? (
@@ -80,7 +80,7 @@ const Code = ({ html, content, tooltip = {} }) => {
       </Tooltip>
     </>
   );
-};
+}
 
 Code.prototypes = {
   html: PropTypes.string.isRequired,

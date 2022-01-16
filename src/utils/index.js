@@ -1,4 +1,4 @@
-export const sortVersions = (a, b) => {
+const sortVersions = (a, b) => {
   if (a && b) {
     let [v1, s1, m1] = a.split(".");
     let [v2, s2, m2] = b.split(".");
@@ -23,3 +23,5 @@ export const sortVersions = (a, b) => {
     }
   }
 };
+
+export default sortVersions;
