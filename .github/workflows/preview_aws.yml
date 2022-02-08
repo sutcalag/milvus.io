@@ -61,9 +61,9 @@ jobs:
       #           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
       #           CI: true
 
-      - name: Sync files
-        run: |
-          echo ${{ secrets.RSYNC_PASSWORD }} > rsync.pass
-          sudo chmod 600 rsync.pass
-          sudo chown root rsync.pass
-          sudo rsync --password-file=rsync.pass -rDvpzc --delete public/ rsync://${{secrets.PREVIEW_SITE}}
+#       - name: Sync files
+#         run: |
+#           echo ${{ secrets.RSYNC_PASSWORD }} > rsync.pass
+#           sudo chmod 600 rsync.pass
+#           sudo chown root rsync.pass
+#           sudo rsync --password-file=rsync.pass -rDvpzc --delete public/ rsync://${{secrets.PREVIEW_SITE}}
